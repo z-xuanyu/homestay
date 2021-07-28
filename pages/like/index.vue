@@ -1,9 +1,10 @@
 <template>
 	<view class="like">
-		<u-tabs :list="tabList" active-color="#222222" :bar-width="60" :bar-style="barStyle" :is-scroll="false" :current="current" @change="handleTabChange"></u-tabs>
+		<u-tabs :list="tabList" active-color="#222222" :bar-width="60" :bar-style="barStyle" :is-scroll="false"
+			:current="current" @change="handleTabChange"></u-tabs>
 		<!--没有收藏提示 -->
 		<!-- 入住时间 -->
-		<view class="check_in_time">
+		<view class="check_in_time" @click="handleClickTime">
 			<view class="left">
 				<text class="start_time">6月25日</text>
 				<text class="in">入住</text>
@@ -32,23 +33,38 @@
 		<view class="like-house-list">
 			<like-house-item></like-house-item>
 		</view>
+
+		<!-- 推荐房子 -->
+		<RecommendHouseList></RecommendHouseList>
+		<!-- 选房时间组件 -->
+		<u-calendar v-model="showCalendar" range-color="#fff" range-bg-color="rgba(255,95,123,0.3)" :mode="calendarMode" active-bg-color="rgb(255,95,123)">
+
+			<view slot="tooltip">
+				<view class="calendar-title">
+					选择入住离开日期
+				</view>
+			</view>
+		</u-calendar>
 	</view>
 </template>
 
 <script>
 	import LikeHouseItem from '../../components/likeHouseItem.vue'
+	import RecommendHouseList from '../../components/recommendHouseList.vue'
 	export default {
-		components:{
-			LikeHouseItem
+		components: {
+			LikeHouseItem,
+			RecommendHouseList
 		},
 		data() {
 			return {
+				showCalendar: false,
+				calendarMode: 'range',
 				current: 0,
-				barStyle:{
+				barStyle: {
 					backgroundColor: 'red',
 				},
-				tabList:[
-					{
+				tabList: [{
 						name: '收藏房源'
 					},
 					{
@@ -57,18 +73,23 @@
 				]
 			}
 		},
-		methods:{
-			handleTabChange(value){
+		methods: {
+			handleTabChange(value) {
 				this.current = value;
+			},
+			// 选时间
+			handleClickTime() {
+				this.showCalendar = true;
 			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	.like{
+	.like {
+
 		// 入住时间
-		.check_in_time{
+		.check_in_time {
 			border-radius: 15rpx;
 			padding: 20rpx;
 			margin: 30rpx;
@@ -76,40 +97,51 @@
 			justify-content: space-between;
 			align-items: center;
 			box-shadow: 0 4px 30px 0 rgba(4, 59, 85, 0.1);
-			.left{
-				.start_time,.end_time{
+
+			.left {
+
+				.start_time,
+				.end_time {
 					font-weight: 600;
 				}
-				.in,.leave{
+
+				.in,
+				.leave {
 					margin: 0 10rpx;
 					color: #999;
 					font-size: 24rpx;
 				}
-				.line{
+
+				.line {
 					font-weight: 600;
 					margin-right: 10rpx;
 				}
 			}
-			.right{
+
+			.right {
 				font-size: 24rpx;
 				color: #999;
 			}
 		}
+
 		// 收藏城市列表
-		.city{
+		.city {
 			padding: 0 10rpx;
 			display: flex;
-			.item{
-				position:relative;
+
+			.item {
+				position: relative;
 				padding: 10rpx 20rpx;
 				margin-left: 20rpx;
 				background-color: #FFFFFF;
 				box-shadow: 0 4px 30px 0 rgba(4, 59, 85, 0.1);
 			}
-			.active{
+
+			.active {
 				background-color: #000;
 				color: #FFFFFF;
-				&::after{
+
+				&::after {
 					content: "";
 					position: absolute;
 					width: 0rpx;
@@ -123,10 +155,15 @@
 				}
 			}
 		}
+
 		// 收藏房子列表
-		.like-house-list{
+		.like-house-list {
 			margin-top: 20rpx;
 			padding: 20rpx;
+		}
+		.calendar-title{
+			text-align: center;
+			padding: 10px;
 		}
 	}
 </style>

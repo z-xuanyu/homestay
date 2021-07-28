@@ -30,6 +30,10 @@
 				</view>
 			</view>
 		</view>
+		<!-- 收藏图标 -->
+		<view class="like-icon">
+			<u-icon name="heart-fill" color="red"></u-icon>
+		</view>
 	</view>
 </template>
 
@@ -45,9 +49,22 @@
 
 <style lang="scss" scoped>
 	.like_item{
+		position: relative;
 		display: flex;
 		box-shadow: 0 4px 30px 0 rgba(4, 59, 85, 0.1);
 		border-radius: 20rpx;
+		.like-icon{
+			position: absolute;
+			top: 10rpx;
+			left: 10rpx;
+			width: 40rpx;
+			height: 40rpx;
+			border-radius: 40rpx;
+			background-color: #FFFFFF;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
 		image{
 			width: 40%;
 			height: 250rpx;
